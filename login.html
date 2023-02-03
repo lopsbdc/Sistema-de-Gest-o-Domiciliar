@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Login</title>        
+        
+        <!-- Bootstrap -->
+        <link href="bootstrap/bootstrap.css" rel="stylesheet">
+
+        <!--Angular -->
+        <script src="angular/angular.min.js"></script>
+        <script src="controller/controllerUser.js"> </script>
+
+        <!-- CSS -->
+        <link href="css/Login.css" rel="stylesheet">
+
+        <!-- SCRIPTS-->
+        <script src="jquery/jquery.min.js"></script>
+    </head> 
+
+    <body ng-app= "Login" ng-controller="controlLogin">
+        <div class="container">
+                <div class="card card-container">
+                    <img id="profile-img" class="profile-img-card" src="images\Logomarca.png" />
+                    
+                    <!--Formulário de Login -->
+                    <form class="form-signin" role="form" method="post">
+                        <span id="reauth-email" class="reauth-email"></span>
+
+                        <!--E-mail-->
+                        <input type="email" id="inputEmail" class="form-control" ng-model="login.email" 
+                                placeholder="Digite o e-mail" required autofocus>
+                        <!--Senha -->        
+                        <input type="password" id="inputPassword" class="form-control" ng-model="login.senha"
+                                placeholder="Digite a senha" required>
+
+                        <button class="btn btn-lg btn-primary btn-block btn-signin" 
+                                type="button" ng-click="autenticaLogin()">Entrar
+                        </button>
+                    </form>                    
+                    <!--FIM -- Formulário de Login -->
+                </div>
+            </div>
+    </body>        
+</body>
+</html>    

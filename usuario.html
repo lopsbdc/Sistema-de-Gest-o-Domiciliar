@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="assets/ico/favicon.png">
+
+    <title>Usuários</title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/bootstrap.css" rel="stylesheet">
+
+    <!--Angular -->
+    <script src="angular/angular.min.js"></script>
+    <script src="controller/controllerUser.js"> </script>
+
+    <!-- CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+
+	<!-- SCRIPTS-->
+    <script src="jquery/jquery.min.js"></script>
+	<script src="js/Chart.js"></script>
+	
+
+	
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+
+  </head>
+  <body data-spy="scroll" data-offset="0" data-target="#theMenu" ng-app="Login" ng-controller="controlUsuario">
+	
+	 <!-- -------------- INFORMATIVO ------------ -->
+		<div id="w">
+			<div class="container">
+				<div class="row" id="imgLogin">
+					<img src="images/usuario.jpg"/>	
+				</div>
+			</div>
+		</div>
+	<!-- -------------- FIM - INFORMATIVO ------------ -->  
+		
+	<!---------   TELA USUARIO -------->
+	<div id="wrapper">
+        
+		<!--Formulário-->
+        <div id="login">
+            <!-- Titulo da Página -->
+                <div class="col-lg-12" id="Cadastro">
+                    <h1 class="page-header">Cadastre-se !</h1>
+                </div>
+            <!-- Fim - Titulo da Página -->
+			<br></br>		
+		    
+		    <form id="formulario">   
+
+				      Nome:
+				      <label id="nome">
+				      		<input type="text" style="width:450px;font-size: 15px" id="name" class="form-control" 
+				      		       ng-model="usuario.nome" placeholder="Digite o nome" required autofocus>
+				      </label>
+				      <br><br>
+
+				      Sobrenome:
+				      <label id="sobrenome">
+				      		<input type="text" style="width:450px;font-size: 15px" id="name" class="form-control" 
+				      		       ng-model="usuario.sobrenome" placeholder="Digite o sobrenome" required autofocus>
+				      </label>
+				      <br><br>
+
+				      Email de Login:
+				      <label id="e-mail">
+				      		<input type="email" id="email" class="form-control" style="width:450px;font-size: 15px"       ng-model="usuario.email" placeholder="Informe o e-mail" required autofocus>
+				      </label>		
+				      <br><br>
+
+				      Senha:
+				      <label id="senha">
+				      		<input type="password" id="senha" class="form-control" style="width:450px;font-size: 15px"      ng-model="usuario.senha" placeholder="Informe a Senha" required>
+				      </label>		
+				      <br><br>
+					  <br><br>
+					  
+		    </form>
+
+		</div>
+		<!--Fim - Formulário-->
+		
+		<!--Btn-->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<button type="button" class="btn btn-default green-circle-button" 
+							ng-click="adicionarUsuario()"> Confirmar <br />Cadastro<br />
+							<span class="green-circle-greater-than"></span>
+					</button>
+				</div>   
+			</div>
+		</div>
+		<!--Fim - Btn-->
+	</div>	    
+	
+	 <!-- -------------- INFORMATIVO ------------ -->
+		<div id="w">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2">
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- -------------- FIM - INFORMATIVO ------------ -->  
+
+    <!-- FOOTER -->
+		<div id="c">
+			<div class="container">
+				<p>Criado por <a href="">Evelyn e Matheus</a></p>
+			
+			</div>
+		</div>
+	<!-- FIM - FOOTER -->
+	
+
+      <!-- SCRIPTS  -->
+		<script src="js/classie.js"></script>
+	    <script src="bootstrap/bootstrap.min.js"></script>
+	    <script src="js/smoothscroll.js"></script>
+		<script src="js/main.js"></script>
+</body>
+
+</html>

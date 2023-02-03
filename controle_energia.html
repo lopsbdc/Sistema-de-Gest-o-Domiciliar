@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="assets/ico/favicon.png">
+
+    <title>Controle Energia</title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/bootstrap.css" rel="stylesheet">
+
+    <!--Angular -->
+    <script src="angular/angular.min.js"></script>
+    <script src="controller/controllerEnergia.js"> </script>
+
+    <!-- CSS -->
+    <link href="css/style.css" rel="stylesheet">
+
+	<!-- SCRIPTS-->
+    <script src="jquery/jquery.min.js"></script>
+	<script src="js/Chart.js"></script>
+	
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- SCRIPTS GRAFICOS Controle de Energia-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Meses', 'Consumo'],
+          ['Janeiro',  150],
+          ['Fevereiro',127],
+          ['Março',    124],
+          ['Abril',    138],
+          ['Maio',     143],
+          ['Junho',    154],
+          ['Julho',    190],
+          
+        ]);
+
+        var options = {
+          title: 'Controle de Energia',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
+
+  </head>
+
+  <body data-spy="scroll" data-offset="0" data-target="#theMenu" ng-app="Energia" ng-controller="ctrlEnergia">
+		
+	<!-- Menu -->
+	<nav class="menu" id="theMenu">
+		<div class="menu-wrap">
+			<h1 class="logo"><a href="index.html#home">Home Helper</a></h1>
+			<i class="icon-remove menu-close"></i>
+			<a href="home.html">Home</a>
+			<a href="home.html#services">Gráficos</a>
+			<a href="home.html#portfolio">Controle</a>
+			<a href="usuario.html">Configurações</a>
+			<a href="login.html"><i class="glyphicon glyphicon-log-out"></i>Sair</a>
+		</div>
+		<!-- BOTAO MENU -->
+		<div id="menuToggle"><i class="glyphicon glyphicon-align-justify"></i></div>
+	</nav>
+
+	
+	<!-------------- CONTROLE ENERGIA ------------ -->
+	<div id="itemwrapEnergia">
+		<div class="container">
+			<!-- Espaçamento -->
+			<br></br>
+			<br></br>
+			<br></br>
+			<h1>Controle Energia</h1>
+		</div>
+	</div>	
+	
+	<!-- -------------- INFORMATIVO ------------ -->
+	<div id="w">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+					<h3>CONTROLE SUA ENERGIA <bold>COM MAIS PRATICIDADE !!</bold> </h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- -------------- FIM - INFORMATIVO ------------ -->
+
+
+	<!-- ------------ TELA ENERGIA ------------ -->
+	<div id="wrapper" data-ng-init="consultaEnergia()">
+		<!--Filtro-->
+        <div id="filtro2">
+            <div class="container">    
+                <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="Mês em que está buscando!"/>
+            </div>
+            <br>
+        </div>    
+        <!--Fim Filtro-->
+
+            <!--Formulário-->
+            <div id="page-wrapper">
+                <!-- Espaçamento -->
+                 <br></br>
+                <!-- Fim - Espaçamento -->
+
+			  <!--Tabela-->
+                <table class="table table-hover" class="centered" class="panel-heading">
+                	<thead>
+                        <tr>
+                    		<th></th>
+                    		<th> Mês </th>
+                    		<th> Ano </th>
+                    		<th> Tarifa </th>
+                    		<th> Consumo </th>
+                    		<th> Valor Conta (R$)</th>	
+                    	</tr>
+                   </thead>
+                	<tr ng-repeat="energia in listaEnergia | filter: {mes:criterioDeBusca}">
+                		<td> 
+                            <button type="button" class="btn btn-success btn-circle" 
+                                        ng-click="atualizaEnergia(energia.mes)">
+								<i class="glyphicon glyphicon-pencil"></i>
+							</button>
+
+							<button type="button" class="btn btn-danger btn-circle" 
+								ng-click="excluirEnergia(energia.mes)">
+								<i class="glyphicon glyphicon-remove"></i>
+							</button>
+                        </td>
+						
+                		<td>{{energia.mes}}</td>
+                		<td>{{energia.ano}}</td>
+                		<td>{{energia.tarifa}}</td>
+                		<td>{{energia.consumo}}</td>
+                		<td>{{energia.valor_conta}}</td>
+                	</tr>	
+                </table>
+                <!--Fim Tabela-->
+        </div> 
+    </div>           
+    <!-- ------------ FIM TELA ENERGIA ------------ -->  
+
+
+	    <!-- -------------- Espaçamento ------------ -->
+		<div id="w"></div>
+		<!-- -------------- FIM - Espaçamento ------------ -->
+
+
+		<!-- -------------- INFORMAÇÕES ENERGIA ------------ -->
+		<div id="dg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                    	<form name="energiaForm">
+                    		<h2> Informações das Contas de Energia </h2>
+                    		<br><br/>
+
+			  			 <!--Formulario para controle energia-->
+			  			 	<label for="selectMes"> Mês </label>
+		                    <select class"form-control" ng-model="energia.mes" id="mes" ng-required="true">
+		                    	   <option value="">Selecione o Mês</option>
+		                    	   <option ng-repeat="mes in Meses" value="{{mes.mes}}"> 	
+		                    	   	       {{mes.mes}}
+		                    	   	</option>	   	
+		                    </select>
+		                    
+		                    <br><br/>
+
+		                    <label for="selectAno"> Ano </label>
+		                    <select class"form-control" ng-model="energia.ano" id="ano" ng-required="true">
+		                    	   <option value="">Selecione o Ano</option>
+		                    	   <option ng-repeat="ano in Ano" value="{{ano.ano}}"> 
+		                    	   	       {{ano.ano}}
+		                    	   	</option>
+		                    </select>
+		                  
+		                    <br><br/>
+
+		                    <input type="number" class"form-control" id="tarifa" placeholder="Informe a Tarifa"
+		                    	   ng-model="energia.tarifa" ng-required="true"/>
+		                    </input>
+		                    <br><br/>
+
+		                    <input type="number" class"form-control" id="consumo" placeholder="Informe o Consumo" 
+		                           ng-model="energia.consumo" ng-required="true"/>
+		                    </input>
+		                	<br><br/>
+
+		                    <input type="number" class"form-control" id="valor_conta" placeholder="Informe o Valor" 
+		                           ng-model="energia.valor_conta" ng-required="true"/>
+		                    </input>
+							<br></br>
+		                    <!--Validação do Formulário-->
+		                    <!--<div ng-show="energiaForm.tarifa.$invalid && energiaForm.tarifa.$dirty conta"class="alert alert-danger"> 
+		                        Por favor informe a Tarifa!.
+		                    </div>    
+		                    <div ng-show="energiaForm.consumo.$invalid"class="alert alert-danger"> 
+		                        Por favor informe a Consumo!.
+		                    </div>  
+		                     <div ng-show="energiaForm.conta.$invalid"class="alert alert-danger"> 
+		                        Por favor informe a Conta!.
+		                    </div>!-->
+							<button type = "button" class="btn btn-primary btn-block" id="btninserir" 
+									ng-disabled="energiaForm.$invalid" ng-click="insereEnergia()"> Adicionar
+							</button>
+							<button type = "button" class="btn btn-warning btn-block" id="btnatualizar"
+									ng-disabled="energiaForm.$invalid" ng-click="atualizaEnergia()"> Atualizar
+							</button>
+						</form>		               
+		    		</div>
+				</div>
+			</div>
+		</div>
+	<!-- -------------- FIM INFORMAÇÕES ENERGIA ------------ -->
+
+	<!-- -------------- Espaçamento ------------ -->
+		<div id="w"></div>
+	<!-- -------------- FIM - Espaçamento ------------ -->
+
+	<!-- ------------ GRAFICOS ------------ -->
+	<section id="services" name="services">
+		<!--Grafico - Controle de Energia -->
+		<br><br/>
+		<div id="piechart_3d" style="width: 900px; height: 480px; margin-left:200px;"></div>
+
+	</section>
+	
+	<br><br/><!-- ------------ FIM GRAFICOS ------------ -->
+
+<br><br/>
+
+
+			
+<!-- FOOTER -->
+		<div id="c">
+			<div class="container">
+				<p>Criado por <a href="">Evelyn e Matheus</a></p>
+			
+			</div>
+		</div>
+	<!-- FIM - FOOTER -->
+	
+
+      <!-- SCRIPTS  -->
+		<script src="js/classie.js"></script>
+	     <script src="bootstrap/bootstrap.min.js"></script>
+	    <script src="js/smoothscroll.js"></script>
+		<script src="js/main.js"></script>
+		<script type="text/javascript"> 
+			$(function(){
+				$("#btninserir").click(function() { //no submit do formulário
+					//coloca todos valores de todos inputs do form como vazio
+					$('#mes').val(""); 
+					$('#ano').val(""); 
+					$('#tarifa').val(""); 
+					$('#consumo').val(""); 
+					$('#valor_conta').val(""); 
+				});
+			});
+		</script>
+		<script type="text/javascript"> 
+			$(function(){
+				$("#btnatualizar").click(function() { //no submit do formulário
+					//coloca todos valores de todos inputs do form como vazio
+					$('#mes').val(""); 
+					$('#ano').val(""); 
+					$('#tarifa').val(""); 
+					$('#consumo').val(""); 
+					$('#valor_conta').val(""); 
+				});
+			});
+		</script>
+
+</body>
+</html>

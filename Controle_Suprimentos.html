@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>Controle Suprimentos</title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/bootstrap.css" rel="stylesheet">
+
+    <!--Angular -->
+    <script src="angular/angular.min.js"></script>
+    <script src="controller/controllerSupr.js"> </script>
+
+    <!-- CSS -->
+    <link href="css/style.css" rel="stylesheet">
+
+	<!-- SCRIPTS-->
+    <script src="jquery/jquery.min.js"></script>
+	<script src="js/Chart.js"></script>
+
+    <!-- SCRIPTS - PDF-->
+    <script src="js/pdfmake.min.js"></script>
+    <script src='js/vfs_fonts.js'></script> 
+	
+	
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+  </head>
+
+  <body data-spy="scroll" data-offset="0" data-target="#theMenu" ng-app="Suprimentos" ng-controller="ctrlSuprimentos">
+		
+	<!-- Menu -->
+	<nav class="menu" id="theMenu">
+		<div class="menu-wrap">
+			<h1 class="logo"><a href="index.html#home">Home Helper</a></h1>
+            <i class="icon-remove menu-close"></i>
+            <a href="home.html">Home</a>
+            <a href="home.html#services">Gráficos</a>
+            <a href="home.html#portfolio">Controle</a>
+            <a href="usuario.html">Configurações</a>
+            <a href="login.html"><i class="glyphicon glyphicon-log-out"></i>Sair</a>
+		</div>
+		
+		<!-- BOTAO MENU -->
+		<div id="menuToggle"><i class="glyphicon glyphicon-align-justify"></i></div>
+	</nav>
+
+	
+	<!-------------- CONTROLE SUPRIMENTOS ------------ -->
+	<div id="itemwrapSupr" data-ng-init="consultaSup()">
+		
+	</div>	
+	
+	<!-- -------------- INFORMATIVO ------------ -->
+	<div id="w">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+				<h3>O CONTROLE de SUPRIMENTOS <bold>QUE FALTAVA NA HORA DA SUA COMPRA!</bold>
+				</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- -------------- FIM - INFORMATIVO ------------ -->
+
+	<!-- ------------ ------------ -->
+	<div id="wrapper" data-ng-init="consultaSup()">
+        <!--Filtro-->
+        <div id="filtro">
+            <div class="container">    
+                <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="Nome do produto que está buscando!"/>
+            </div>
+            <br>
+        </div>   
+        <div id="w"></div>     
+        <!--Fim Filtro-->
+            
+            <!--Formulário-->
+            <div id="page-wrapper">
+                
+                <div class="row"></div> 
+                <br>     
+                
+                <!-- tabela -->
+                    <table class="table table-hover" class="centered" class="panel-heading"> <!-- tabela -->
+    					<thead>
+    						<tr>
+    							<!-- table header (célula de cabeçalho)-->
+    							<th> </th>
+    							<th> Descrição </th> 
+                                <th> Unidade </th> 
+                                <th> Categoria </th> 
+    							<th> Quantidade </th> 
+    							<th> Quantidade Mensal </th>
+    							<th> Valor </th>	
+    						</tr>
+    					</thead>	
+    						<tr ng-repeat="suprimento in listaSuprimentos | filter: {suprimento:criterioDeBusca} |limitTo: 10">
+    							<td> 
+                            		<button type="button" class="btn btn-success btn-circle" 
+                                		ng-click="atualizaSup(suprimento.id_suprimento)">
+                                		<i class="glyphicon glyphicon-pencil"></i>
+                            		</button>
+
+    		                        <button type="button" class="btn btn-danger btn-circle" 
+    		                            ng-click="removeSup(suprimento.id_suprimento)">
+    		                            <i class="glyphicon glyphicon-remove"></i>
+    		                        </button>
+                        		</td>
+
+    							<td> {{suprimento.suprimento}} </td>
+                                <td> {{suprimento.unidade}} </td>
+                                <td> {{suprimento.categoria}} </td> 
+    							<td> {{suprimento.quantidade}} </td>
+    							<td> {{suprimento.qnt_mensal}} </td>
+    							<td> {{suprimento.valor_unit}} </td>
+    						</tr>
+    				</table>
+                <!-- tabela -->
+                <!--Botao para gerar pdf-->
+                <button class="btn btn-primary" style="margin-left:1210px;"ng-click="generatePDF(suprimento)">
+                    <i class="fa fa-save"></i> Gerar PDF
+                </button>
+                <br/></br>
+                <!--Fim - Botao para gerar pdf-->
+            </div>          
+    </div>        
+	
+    <!-- -------------- INFORMATIVO ------------ -->
+	<div id="w">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- -------------- FIM - INFORMATIVO ------------ -->
+
+
+
+	<!-- -------------- INFORMAÇÕES SUPRIMENTOS ------------ -->
+	<div id="dg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+                    <form name="suprimentoForm">
+					    <h2> Informações dos Suprimentos </h2>
+                        <br></br>
+
+    					<input type="text" class="form-control" id="descricao" placeholder="Informe a Descrição"ng-model="suprimento.suprimento" ng-required="true"/>
+                        </br>
+                        <!--Unidades-->
+                        <label for="selectUnidade">Unidades </label>
+                        <select class"form-control" id="unidades" ng-model="suprimento.unidade" ng-required="true">
+                            <option value="">Selecione a Unidade</option>
+                            <option ng-repeat="unidade in listaUnidades" value="{{unidade.id_unidade}}"> 
+                                {{unidade.descricao}}
+                            </option> 
+                        </select>
+                        <!--Mostra a unidade escolhida na alteração do suprimento-->
+                        <var>{{suprimento.unidade}}</var>
+                        <!--Fim - Unidades-->
+                        <br></br>
+                       
+                        <!--Categorias-->
+                        <label for="selectCategoria"> Categorias </label>
+                        <select class"form-control" ng-model="suprimento.categoria" id="categorias" 
+                                ng-required="true">
+                            <option value="">Selecione a Categoria</option>
+                            <option ng-repeat="categoria in listaCategorias" value="{{categoria.id_categoria}}">      {{categoria.descricao}}
+                            </option>  
+                        </select>
+                        <!--Mostra a categoria escolhida na alteração do suprimento-->
+                        <var>{{suprimento.categoria}}</var> 
+                        <!-- Fim - Categorias-->   
+                        <br></br>
+
+
+    				    <input type="number" class="form-control" id="qnt" placeholder="Digite a Quantidade" 
+                               ng-model="suprimento.quantidade" ng-required="true"/>
+                        </br>
+    				    <input type="number" class="form-control" id="qnt_mensal" placeholder="Digite a Quantidade Mensal" ng-model="suprimento.qnt_mensal" ng-required="true"/>
+    				    </br>	   	
+    					<input type="number" class="form-control" id="valor" placeholder="Informe o valor unitário" ng-model="suprimento.valor_unit" ng-required="true"/>
+    					</br>
+
+    					<button type="button" class="btn btn-info" id="btn" ng-click="insereSup()" 
+                                ng-disabled="suprimentoForm.$invalid"> Inserir 
+                        </button>
+    					<button type="button" class="btn btn-info" ng-click="atualizaSup()" ng-disabled="suprimentoForm.$invalid"> Atualizar 
+                        </button>
+    				</form>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- -------------- FIM - INFORMAÇÕES SUPRIMENTOS ------------ -->
+	
+
+	<!-- FOOTER -->
+		<div id="c">
+			<div class="container">
+				<p>Criado por <a href="">Evelyn e Matheus</a></p>
+			
+			</div>
+		</div>
+	<!-- FIM - FOOTER -->
+
+
+	
+<!-- SCRIPTS  -->
+		<script src="js/classie.js"></script>
+	    <script src="bootstrap/bootstrap.min.js"></script>
+	    <script src="js/smoothscroll.js"></script>
+		<script src="js/main.js"></script>
+        <script type="text/javascript"> 
+            $(function(){
+                $("#btn").click(function() { //no submit do formulário
+                    //coloca todos valores de todos inputs do form como vazio
+                    $('#descricao').val(""); 
+                    $('#unidades').val(""); 
+                    $('#categorias').val(""); 
+                    $('#qnt').val(""); 
+                    $('#qnt_mensal').val(""); 
+                    $('#valor').val(""); 
+                });
+            });
+        </script>
+
+</body>
+</html>

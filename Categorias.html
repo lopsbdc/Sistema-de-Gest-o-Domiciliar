@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+   
+    <title>Categorias</title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/bootstrap.css" rel="stylesheet">
+
+    <!--Angular -->
+    <script src="angular/angular.min.js"></script>
+    <script src="controller/controllerCategoria.js"> </script>
+
+    <!-- CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    
+	<!-- SCRIPTS-->
+    <script src="jquery/jquery.min.js"></script>
+	<script src="js/Chart.js"></script>
+	
+	
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+  </head>
+
+  <body data-spy="scroll" data-offset="0" data-target="#theMenu" ng-app="Categorias" ng-controller="ctrlCategorias">
+		
+	<!-- Menu -->
+	<nav class="menu" id="theMenu">
+		<div class="menu-wrap">
+			<h1 class="logo"><a href="home.html">Home Helper</a></h1>
+			<i class="icon-remove menu-close"></i>
+			<a href="home.html">Home</a>
+			<a href="home.html#services">Gráficos</a>
+			<a href="home.html#portfolio">Controle</a>
+			<a href="usuario.html">Configurações</a>
+			<a href="login.html"><i class="glyphicon glyphicon-log-out"></i>Sair</a>
+		</div>
+		<!-- BOTAO MENU -->
+		<div id="menuToggle"><i class="glyphicon glyphicon-align-justify"></i></div>
+	</nav>
+
+	<!-------------- CONTROLE CATEGORIAS ------------ -->
+	<div id="itemwrapCategoria" data-ng-init="consultaCategorias()"></div>	
+	
+	<!-- -------------- INFORMATIVO ------------ -->
+	<div id="w">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+				<h3>CATEGORIAS <bold>PERSONALIZE A SUA!</bold>
+				</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- -------------- FIM - INFORMATIVO ------------ -->
+
+
+	<!-- ------------ TELA CATEGORIAS ------------ -->
+	<div id="wrapper" data-ng-init="consultaCategorias()">
+            
+            <!--Formulário-->
+            <div id="page-wrapper">
+  				<br></br>          
+                <!-- tabela -->
+                    <table class="table table-hover" class="centered" class="panel-heading"> 
+                        <thead>
+                            <tr>
+                                <!--cabeçalho)-->
+                                <th> </th>
+                                <th> Código </th>
+                                <th> Descrição </th> 
+                            </tr>
+                        </thead>    
+                            <tr ng-repeat="categoria in listaCategorias">
+                                <td> 
+                                    <button type="button" class="btn btn-success btn-circle" 
+                                        ng-click="atualizaCategorias(categoria.id_categoria)">
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                    </button>
+
+                                    <button type="button" class="btn btn-danger btn-circle" 
+                                        ng-click="removeCategoria(categoria.id_categoria)">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </td>
+                                <td> {{categoria.id_categoria}} </td> 
+                                <td> {{categoria.descricao}} </td> 
+                            </tr>
+                    </table>
+                <!-- tabela -->
+            </div>          
+    </div>        
+    <!-- ------------ FIM TELA CATEGORIAS ------------ -->
+
+	
+    <!-- -------------- INFORMATIVO ------------ -->
+	<div id="w">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- -------------- FIM - INFORMATIVO ------------ -->
+
+
+	<!-- -------------- INFORMAÇÕES CATEGORIAS ------------ -->
+	<div id="dg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+					<h2> Informação das Categorias </h2>
+
+                    <input type="text" class="form-control" id="categoria" placeholder=" Informe a Descrição"
+                    ng-model="categoria.descricao"/></br> 
+                    
+                    <button type="button" class="btn btn-info" id="btnInserir" ng-click="insereCategoria()"
+                        ng-disabled="!categoria.descricao"> Inserir
+                    </button>
+                    <button type="button" class="btn btn-info" id="btnAlterar" ng-click="atualizaCategorias()"
+                        ng-disabled="!categoria.descricao"> Atualizar
+                    </button>
+				</div>
+			</div>
+			<br></br>	
+		</div>
+	</div>
+	<!-- -------------- FIM INFORMAÇÕES CATEGORIAS ------------ -->
+
+	
+	<!-- FOOTER -->
+		<div id="c">
+			<div class="container">
+				<p>Criado por <a href="">Evelyn e Matheus</a></p>
+			
+			</div>
+		</div>
+	<!-- FIM - FOOTER -->
+	
+
+      <!-- SCRIPTS  -->
+		<script src="js/classie.js"></script>
+	    <script src="bootstrap/bootstrap.min.js"></script>
+	    <script src="js/smoothscroll.js"></script>
+		<script src="js/main.js"></script>
+		<script type="text/javascript"> 
+			$(function(){
+				$("#btnInserir").click(function() { //no submit do formulário
+					$('#categoria').val(""); //coloca todos valores de todos inputs do form como vazio
+				});
+			});
+		</script>
+</body>
+</html>
